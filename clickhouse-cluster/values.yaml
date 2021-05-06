@@ -1,0 +1,52 @@
+# Configuration for the ClickHouse cluster to be started
+clickhouse:
+  # default cluster name
+  clusterName: all-nodes
+  # shards count can not scale in this value.
+  shardscount: 1
+  # replicas count can not modify this value when the cluster has already created.
+  replicascount: 2
+
+  # ClickHouse server image configuration
+  image: radondb/clickhouse-server:v21.1.3.32-stable
+  imagePullPolicy: IfNotPresent
+
+  resources:
+    memory: "1Gi"
+    cpu: "0.5"
+    storage: "10Gi"
+
+  # User Configuration
+  user:
+    - username: clickhouse
+      password: c1ickh0use0perator
+      networks:
+        - "127.0.0.1"
+        - "::/0"
+
+  ports:
+    # Port for the native interface, see https://clickhouse.tech/docs/en/interfaces/tcp/
+    tcp: 9000
+
+    # Port for HTTP/REST interface, see https://clickhouse.tech/docs/en/interfaces/http/
+    http: 8123
+
+  # servicee, value: ClusterIP/NodePort/LoadBalancer
+  # see https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  svc:
+    type: ClusterIP
+    # If type: LoadBalancer, can use https://docs.qingcloud.com/product/container/qke/index#%E4%B8%8E-qingcloud-iaas-%E7%9A%84%E6%95%B4%E5%90%88
+    qceip:
+
+# zookeeper configuration
+zookeeper:
+  replicas: 3
+
+  # configuration for zookeeper instance
+  image: radondb/zookeeper:3.6.2
+  imagePullPolicy: IfNotPresent
+
+  resources:
+    memory: "1Gi"
+    cpu: "0.5"
+    storage: "1Gi"

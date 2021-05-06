@@ -1,0 +1,147 @@
+{{ $shardscount := .Values.clickhouse.shardscount }}
+{{ $replicascount := .Values.clickhouse.replicascount }}
+{{ $username := (index $.Values.clickhouse.user 0).username }}
+{{ $password := (index $.Values.clickhouse.user 0).password }}
+{{- $zkreplicas := int .Values.zookeeper.replicas -}}
+{{- $args := list -}}
+{{- $name :=  .Release.Name -}}
+{{- $namespace := .Release.Namespace -}}
+---
+apiVersion: "clickhouse.radondb.com/v1"
+kind: "ClickHouseInstallation"
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  configuration:
+    zookeeper:
+      nodes:
+        {{- range untilStep 0 $zkreplicas 1 -}}
+          {{ $args = printf "%s-%s-%d" "zk" $name . }}
+          - host: {{ $args }}.zk-server-{{ $name }}.{{ $namespace }}
+            port: 2181
+        {{- end }}
+    users:
+      readonly/profile: readonly
+      #     <users>
+      #        <readonly>
+      #          <profile>readonly</profile>
+      #        </readonly>
+      #     </users>
+      {{ $username }}/password: {{ $password }}
+      {{ $username }}/networks/ip:
+        {{- range $ipIndex, $ip := (index $.Values.clickhouse.user 0).networks }}
+        - {{ $ip }}
+        {{- end }}
+      #     <users>
+      #        <test>
+      #          <networks>
+      #            <ip>127.0.0.1</ip>
+      #            <ip>::/0</ip>
+      #          </networks>
+      #        </test>
+      #     </users>
+      {{ $username }}/profile: default
+      {{ $username }}/quotas: default
+      profiles:
+        readonly/readonly: "1"
+        #      <profiles>
+        #        <readonly>
+        #          <readonly>1</readonly>
+        #        </readonly>
+        #      </profiles>
+        default/max_memory_usage: "100000"
+      quotas:
+        default/interval/duration: "3600"
+        #     <quotas>
+        #       <default>
+        #         <interval>
+        #           <duration>3600</duration>
+        #         </interval>
+        #       </default>
+        #     </quotas>
+      settings:
+        compression/case/method: zstd
+        #      <compression>
+        #        <case>
+        #          <method>zstd</method>
+        #        </case>
+        #      </compression>
+        disable_internal_dns_cache: 1
+        #      <disable_internal_dns_cache>1</disable_internal_dns_cache>
+    clusters:
+      - name: {{ $.Values.clickhouse.clusterName }}
+        # Templates are specified for this cluster explicitly
+        templates:
+          podTemplate: pod-template-with-volume
+        layout:
+          shardsCount: {{ $shardscount }}
+          replicasCount: {{ $replicascount }}
+
+  defaults:
+    templates:
+      podTemplate: pod-template-with-volume
+      dataVolumeClaimTemplate: data
+      logVolumeClaimTemplate: data
+      serviceTemplate: chi-svc-template
+
+  templates:
+    serviceTemplates:
+      - name: chi-svc-template
+        {{- if eq .Values.clickhouse.svc.type "LoadBalancer" }}
+        metadata:
+          annotations:
+            service.beta.kubernetes.io/qingcloud-load-balancer-eip-ids: {{ $.Values.clickhouse.svc.qceip }}
+            service.beta.kubernetes.io/qingcloud-load-balancer-type: "0"
+        {{- end }}
+        spec:
+          ports:
+            - name: http
+              port: {{ $.Values.clickhouse.ports.http }}
+            - name: tcp
+              port: {{ $.Values.clickhouse.ports.tcp }}
+          type: {{ $.Values.clickhouse.svc.type }}
+
+    podTemplates:
+      - name: pod-template-with-volume
+        metadata:
+          annotations:
+            backup.velero.io/backup-volumes: data
+        spec:
+          affinity:
+            # Locate only one pod on each host
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 1
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                        - key: "clickhouse.radondb.com/chi"
+                          operator: In
+                          values:
+                          - {{ .Release.Name }}
+                    topologyKey: "kubernetes.io/hostname"
+          containers:
+            - name: clickhouse
+              image: {{ $.Values.clickhouse.image }}
+              imagePullPolicy: {{ $.Values.clickhouse.imagePullPolicy }}
+              volumeMounts:
+                - name: data
+                  mountPath: /var/lib/clickhouse
+              resources:
+                requests:
+                  memory: {{ $.Values.clickhouse.resources.memory }}
+                  cpu: {{ $.Values.clickhouse.resources.cpu }}
+                limits:
+                  memory: {{ $.Values.clickhouse.resources.memory }}
+                  cpu: {{ $.Values.clickhouse.resources.cpu}}
+
+    volumeClaimTemplates:
+      - name: data
+        reclaimPolicy: Retain
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: {{ $.Values.clickhouse.resources.storage }}

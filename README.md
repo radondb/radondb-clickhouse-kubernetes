@@ -1,0 +1,1 @@
+# ClickHouse-Operator Helm chart

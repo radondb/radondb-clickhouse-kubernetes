@@ -1,0 +1,17 @@
+apiVersion: v2
+appVersion: 0.1.0
+description: clickhouse-operator Helm chart for Kubernetes
+home: https://github.com/radondb/radondb-clickhouse-kubernetes
+keywords:
+- operator
+- clickhouse
+- database
+maintainers:
+- email: tai_chong@foxmail.com
+  name: TCeason
+  url: https://tceason.github.io/
+name: clickhouse-operator
+sources:
+- https://github.com/radondb/radondb-clickhouse-kubernetes
+type: application
+version: 0.1.0
