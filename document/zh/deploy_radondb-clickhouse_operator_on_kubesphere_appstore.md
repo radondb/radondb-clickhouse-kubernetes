@@ -30,15 +30,13 @@ RadonDB ClickHouse 是基于 [ClickHouse](https://clickhouse.tech/) 的开源、
 
 以 `admin` 身份登录 KubeSphere 的 Web 控制台，并使用**工具箱**中的 **Kubectl** 执行以下命令来安装 ClickHouse Operator。建议至少准备 2 个可用集群节点。
 
-RadonDB ClickHouse Operator 将会被安装在 `kube-system` 命名空间下，因此一个 KubeSphere 集群只需要安装一次 Operator。
-
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/radondb/radondb-clickhouse-kubernetes/main/clickhouse-operator-install.yml
 ```
 
 > **注意**
 > 
-> ClickHouse Operator 将会被安装在 `kube-system` 命名空间下，因此一个 Kubernetes 集群只需要安装一次 ClickHouse Operator。
+> RadonDB ClickHouse Operator 将会被安装在 `kube-system` 命名空间下，因此一个 KubeSphere 集群只需要安装一次 ClickHouse Operator。
 
 **预期结果**
 

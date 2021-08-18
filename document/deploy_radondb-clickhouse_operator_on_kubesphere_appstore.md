@@ -36,9 +36,9 @@ Log in to the KubeSphere Web console as `admin`, and use **Kubectl** from the **
 kubectl apply -f https://raw.githubusercontent.com/radondb/radondb-clickhouse-kubernetes/master/clickhouse-operator-install.yml
 ```
 
-> **注意**
+> **Notice**
 > 
-> This command will install ClickHouse Operator in the namespace `kube-system`. Therefore, ClickHouse Operator only needs to be installed once in a Kubernetes cluster.
+> This command will install ClickHouse Operator in the namespace `kube-system`. Therefore, ClickHouse Operator only needs to be installed once in a KubeSphere cluster.
 
 ```powershell
 customresourcedefinition.apiextensions.k8s.io/clickhouseinstallations.clickhouse.altinity.com configured
