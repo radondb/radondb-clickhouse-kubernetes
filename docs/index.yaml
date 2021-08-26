@@ -3,9 +3,9 @@ entries:
   clickhouse-cluster:
   - apiVersion: v2
     appVersion: "21.1"
-    created: "2021-08-18T12:38:03.859332119+08:00"
+    created: "2021-09-06T15:01:44.958414126+08:00"
     description: Helm Chart for deploying a sharded and replicated ClickHouse cluster
-    digest: f5f04cb64986f293a2aa0a3a5e93d0049b6bc6153005ab5b4eb25b1a0f7e18fd
+    digest: 87e51c01872b2c655c8d2a0254e8dc02a11cdb1ca5a2b1891d2aecc09593e7a7
     home: https://github.com/radondb/radondb-clickhouse-kubernetes
     icon: https://xenondb.pek3b.qingstor.com/icons/radondb.svg
     keywords:
@@ -24,9 +24,9 @@ entries:
   clickhouse-operator:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2021-08-18T12:38:03.860226371+08:00"
+    created: "2021-09-06T15:01:44.9589887+08:00"
     description: clickhouse-operator Helm chart for Kubernetes
-    digest: 3591818fc94d6b1a3054acbf6743057e1bf412acfaaddf10f989059974c68aa4
+    digest: 522b4f6f905b77a9a5d8eb52d27524c32420a0ea03691b35bbd02791fe08d1a5
     home: https://github.com/radondb/radondb-clickhouse-kubernetes
     keywords:
     - operator
@@ -43,4 +43,4 @@ entries:
     urls:
     - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-18T12:38:03.857904907+08:00"
+generated: "2021-09-06T15:01:44.957662507+08:00"

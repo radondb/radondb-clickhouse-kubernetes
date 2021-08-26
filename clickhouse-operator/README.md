@@ -19,6 +19,7 @@ $ helm install --generate-name ck/clickhouse-operator
 
 ## License
 
-This helm chart is published under the Apache License, Version 2.0. See LICENSE.md for more information.
+This helm chart is published under the Apache License, Version 2.0.
+See [LICENSE.md](LICENSE.md) for more information.
 
-Copyright (c) by [TCeason](https://tceason.github.io/).
+Copyright (c) by [RadonDB](https://github.com/radondb).

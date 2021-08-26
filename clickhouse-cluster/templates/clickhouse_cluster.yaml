@@ -43,32 +43,32 @@ spec:
       #     </users>
       {{ $username }}/profile: default
       {{ $username }}/quotas: default
-      profiles:
-        readonly/readonly: "1"
-        #      <profiles>
-        #        <readonly>
-        #          <readonly>1</readonly>
-        #        </readonly>
-        #      </profiles>
-        default/max_memory_usage: "100000"
-      quotas:
-        default/interval/duration: "3600"
-        #     <quotas>
-        #       <default>
-        #         <interval>
-        #           <duration>3600</duration>
-        #         </interval>
-        #       </default>
-        #     </quotas>
-      settings:
-        compression/case/method: zstd
-        #      <compression>
-        #        <case>
-        #          <method>zstd</method>
-        #        </case>
-        #      </compression>
-        disable_internal_dns_cache: 1
-        #      <disable_internal_dns_cache>1</disable_internal_dns_cache>
+    profiles:
+      readonly/readonly: "1"
+      #      <profiles>
+      #        <readonly>
+      #          <readonly>1</readonly>
+      #        </readonly>
+      #      </profiles>
+      default/max_memory_usage: "100000"
+    quotas:
+      default/interval/duration: "3600"
+      #     <quotas>
+      #       <default>
+      #         <interval>
+      #           <duration>3600</duration>
+      #         </interval>
+      #       </default>
+      #     </quotas>
+    settings:
+      compression/case/method: zstd
+      #      <compression>
+      #        <case>
+      #          <method>zstd</method>
+      #        </case>
+      #      </compression>
+      disable_internal_dns_cache: 1
+      #      <disable_internal_dns_cache>1</disable_internal_dns_cache>
     clusters:
       - name: {{ $.Values.clickhouse.clusterName }}
         # Templates are specified for this cluster explicitly
