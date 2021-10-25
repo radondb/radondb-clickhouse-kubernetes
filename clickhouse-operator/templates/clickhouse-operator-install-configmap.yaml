@@ -252,7 +252,7 @@ data:
                 "containers" : [
                   {
                     "name": "clickhouse",
-                    "image": "{{ .Values.operator.image | default "radondb/chronus-operator:2.0" }}",
+                    "image": "{{ .Values.operator.image | default "radondb/chronus-operator:2.1" }}",
                     "ports": [
                       {
                         "name": "http",
