@@ -3,7 +3,31 @@ entries:
   clickhouse-cluster:
   - apiVersion: v2
     appVersion: "21.1"
-    created: "2021-10-26T18:49:00.265601241+08:00"
+    created: "2021-10-26T19:00:22.349928915+08:00"
+    description: Helm Chart for deploying a sharded and replicated ClickHouse cluster
+      on Kubernetes
+    digest: eca4e15b6a79c48fa953505c52da490f5f13e2f80f1c9f3c5f161b489519a569
+    home: https://github.com/radondb/radondb-clickhouse-kubernetes
+    icon: https://xenondb.pek3b.qingstor.com/icons/radondb.svg
+    keywords:
+    - clickhouse
+    maintainers:
+    - email: tai_chong@foxmail.com
+      name: TCeason
+      url: https://tceason.github.io/
+    - email: suhouzhen2020@gmail.com
+      name: su-houzhen
+      url: https://su-houzhen.github.io/
+    name: clickhouse-cluster
+    sources:
+    - https://github.com/radondb/radondb-clickhouse-kubernetes
+    type: application
+    urls:
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-cluster-v2.1.tgz
+    version: v2.1
+  - apiVersion: v2
+    appVersion: "21.1"
+    created: "2021-10-26T19:00:22.349169945+08:00"
     description: Helm Chart for deploying a sharded and replicated ClickHouse cluster
       on Kubernetes
     digest: c15ac550fff3979fcab8ab7363368b2d831ea843e27c198ad2039c239508abab
@@ -27,8 +51,34 @@ entries:
     version: v2.0
   clickhouse-operator:
   - apiVersion: v2
+    appVersion: v2.1
+    created: "2021-10-26T19:00:22.352542119+08:00"
+    description: Helm chart for deploying ClickHouse Operator on Kubernetes
+    digest: aa8a1b19292d7e605afa90f2109212165432d3bc5bd41e7c0d16312101f0f84a
+    home: https://github.com/radondb/radondb-clickhouse-kubernetes
+    keywords:
+    - operator
+    - clickhouse
+    - database
+    maintainers:
+    - email: tai_chong@foxmail.com
+      name: TCeason
+      url: https://tceason.github.io/
+    - email: suhouzhen2020@gmail.com
+      name: su-houzhen
+      url: https://su-houzhen.github.io/
+    name: clickhouse-operator
+    sources:
+    - https://github.com/altinity/clickhouse-operator
+    - https://github.com/radondb/radondb-clickhouse-operator
+    - https://github.com/radondb/radondb-clickhouse-kubernetes
+    type: application
+    urls:
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-operator-v2.1.tgz
+    version: v2.1
+  - apiVersion: v2
     appVersion: v2.0
-    created: "2021-10-26T18:49:00.266882933+08:00"
+    created: "2021-10-26T19:00:22.35127236+08:00"
     description: Helm chart for deploying ClickHouse Operator on Kubernetes
     digest: bd0d1b127eb6bd022dc1e49cc924363fd976d95c62fd82df40dc11a2a8f7d913
     home: https://github.com/radondb/radondb-clickhouse-kubernetes
@@ -52,4 +102,4 @@ entries:
     urls:
     - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-operator-v2.0.tgz
     version: v2.0
-generated: "2021-10-26T18:49:00.263684932+08:00"
+generated: "2021-10-26T19:00:22.348181053+08:00"

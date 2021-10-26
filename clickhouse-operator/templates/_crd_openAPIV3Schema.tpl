@@ -121,6 +121,16 @@ openAPIV3Schema:
                   type: string
                 identity:
                   type: string
+                install:
+                  type: boolean
+                replica:
+                  type: integer
+                  minimum: 0
+                  maximum: 9
+                port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
             users:
               type: object
               x-kubernetes-preserve-unknown-fields: true
@@ -175,6 +185,14 @@ openAPIV3Schema:
                         type: string
                       identity:
                         type: string
+                      install:
+                        type: boolean
+                      replica:
+                        type: integer
+                      port:
+                        type: integer
+                        minimum: 0
+                        maximum: 65535
                   settings:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -762,6 +780,16 @@ openAPIV3Schema:
                   type: string
                 identity:
                   type: string
+                install:
+                  type: boolean
+                replica:
+                  type: integer
+                  minimum: 0
+                  maximum: 9
+                port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
             users:
               type: object
               x-kubernetes-preserve-unknown-fields: true
@@ -816,6 +844,14 @@ openAPIV3Schema:
                         type: string
                       identity:
                         type: string
+                      install:
+                        type: boolean
+                      replica:
+                        type: integer
+                      port:
+                        type: integer
+                        minimum: 0
+                        maximum: 65535
                   settings:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true

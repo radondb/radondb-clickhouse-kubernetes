@@ -38,15 +38,23 @@ clickhouse:
     # If type: LoadBalancer, can use https://docs.qingcloud.com/product/container/qke/index#%E4%B8%8E-qingcloud-iaas-%E7%9A%84%E6%95%B4%E5%90%88
     qceip:
 
-# zookeeper configuration
+# required, zookeeper configuration
 zookeeper:
+  # If you want to create ZooKeeper cluster by operator, use the following configuration
+  # install: true
+  # replicas: specify by yourself
+  # port: specify by yourself
+  install: true
   replicas: 3
+  port: 2181
 
-  # configuration for zookeeper instance
-  image: radondb/zookeeper:3.6.2
-  imagePullPolicy: IfNotPresent
-
-  resources:
-    memory: "1Gi"
-    cpu: "0.5"
-    storage: "1Gi"
+  # If you don’t want Operator to create a ZooKeeper cluster, we also provide a ZooKeeper deployment file,
+  # you can customize the following configuration.
+  # install: false
+  # replicas: specify by yourself
+  # image: radondb/zookeeper:3.6.2
+  # imagePullPolicy: specify by yourself
+  # resources:
+  #   memory: specify by yourself
+  #   cpu: specify by yourself
+  #   storage: specify by yourself
