@@ -20,11 +20,11 @@ additionalPrinterColumns:
     description: Hosts count
     priority: 0 # show in standard view
     JSONPath: .status.hosts
-  - name: status
+  - name: state
     type: string
     description: CHI status
     priority: 0 # show in standard view
-    JSONPath: .status.status
+    JSONPath: .status.state
   - name: updated
     type: integer
     description: Updated hosts count
@@ -74,11 +74,11 @@ additionalPrinterColumns:
     description: Hosts count
     priority: 0 # show in standard view
     jsonPath: .status.hosts
-  - name: status
+  - name: state
     type: string
     description: CHI status
     priority: 0 # show in standard view
-    jsonPath: .status.status
+    jsonPath: .status.state
   - name: updated
     type: integer
     description: Updated hosts count
@@ -128,11 +128,11 @@ additionalPrinterColumns:
     description: Hosts count
     priority: 0 # show in standard view
     JSONPath: .status.hosts
-  - name: status
+  - name: state
     type: string
     description: CHI status
     priority: 0 # show in standard view
-    JSONPath: .status.status
+    JSONPath: .status.state
   - name: updated
     type: integer
     description: Updated hosts count
@@ -182,11 +182,11 @@ additionalPrinterColumns:
     description: Hosts count
     priority: 0 # show in standard view
     jsonPath: .status.hosts
-  - name: status
+  - name: state
     type: string
     description: CHI status
     priority: 0 # show in standard view
-    jsonPath: .status.status
+    jsonPath: .status.state
   - name: updated
     type: integer
     description: Updated hosts count

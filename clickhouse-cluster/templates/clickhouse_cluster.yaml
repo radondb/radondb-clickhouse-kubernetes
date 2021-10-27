@@ -1,7 +1,5 @@
-{{ $shardscount := .Values.clickhouse.shardscount }}
-{{ $replicascount := .Values.clickhouse.replicascount }}
-{{ $username := (index $.Values.clickhouse.user 0).username }}
-{{ $password := (index $.Values.clickhouse.user 0).password }}
+{{ $username := (index .Values.clickhouse.user 0).username }}
+{{ $password := (index .Values.clickhouse.user 0).password }}
 {{- $zkreplicas := int .Values.zookeeper.replicas -}}
 {{- $args := list -}}
 {{- $name :=  .Release.Name -}}
@@ -15,12 +13,18 @@ metadata:
 spec:
   configuration:
     zookeeper:
+      {{- if .Values.zookeeper.install }}
+      install: true
+      replica: {{ .Values.zookeeper.replicas | default 3 }}
+      port: {{ .Values.zookeeper.port | default 2181 }}
+      {{- else }}
       nodes:
         {{- range untilStep 0 $zkreplicas 1 -}}
           {{ $args = printf "%s-%s-%d" "zk" $name . }}
           - host: {{ $args }}.zk-server-{{ $name }}.{{ $namespace }}
             port: 2181
         {{- end }}
+      {{- end }}
     users:
       readonly/profile: readonly
       #     <users>
@@ -69,13 +73,13 @@ spec:
       disable_internal_dns_cache: 1
       #      <disable_internal_dns_cache>1</disable_internal_dns_cache>
     clusters:
-      - name: {{ $.Values.clickhouse.clusterName }}
+      - name: {{ .Values.clickhouse.clusterName | default "clickhouse" }}
         # Templates are specified for this cluster explicitly
         templates:
           podTemplate: pod-template-with-volume
         layout:
-          shardsCount: {{ $shardscount }}
-          replicasCount: {{ $replicascount }}
+          shardsCount: {{ .Values.clickhouse.shardscount | default 1 }}
+          replicasCount: {{ .Values.clickhouse.replicascount | default 1 }}
 
   defaults:
     templates:
@@ -90,16 +94,16 @@ spec:
         {{- if eq .Values.clickhouse.svc.type "LoadBalancer" }}
         metadata:
           annotations:
-            service.beta.kubernetes.io/qingcloud-load-balancer-eip-ids: {{ $.Values.clickhouse.svc.qceip }}
+            service.beta.kubernetes.io/qingcloud-load-balancer-eip-ids: {{ .Values.clickhouse.svc.qceip }}
             service.beta.kubernetes.io/qingcloud-load-balancer-type: "0"
         {{- end }}
         spec:
           ports:
             - name: http
-              port: {{ $.Values.clickhouse.ports.http }}
+              port: {{ .Values.clickhouse.ports.http | default 8123 }}
             - name: tcp
-              port: {{ $.Values.clickhouse.ports.tcp }}
-          type: {{ $.Values.clickhouse.svc.type }}
+              port: {{ .Values.clickhouse.ports.tcp | default 9000 }}
+          type: {{ .Values.clickhouse.svc.type | default "ClusterIP" }}
 
     podTemplates:
       - name: pod-template-with-volume
@@ -122,18 +126,30 @@ spec:
                     topologyKey: "kubernetes.io/hostname"
           containers:
             - name: clickhouse
-              image: {{ $.Values.clickhouse.image }}
-              imagePullPolicy: {{ $.Values.clickhouse.imagePullPolicy }}
+              image: {{ .Values.clickhouse.image | default "radondb/clickhouse-server:v21.1.3.32-stable"  }}
+              imagePullPolicy: {{ .Values.clickhouse.imagePullPolicy | default "Always" }}
               volumeMounts:
                 - name: data
                   mountPath: /var/lib/clickhouse
+              {{- if .Values.clickhouse.resources }}
+              {{- if or .Values.clickhouse.resources.memory .Values.clickhouse.resources.cpu }}
               resources:
                 requests:
-                  memory: {{ $.Values.clickhouse.resources.memory }}
-                  cpu: {{ $.Values.clickhouse.resources.cpu }}
+                  {{- if .Values.clickhouse.resources.memory }}
+                  memory: {{ .Values.clickhouse.resources.memory }}
+                  {{- end }}
+                  {{- if .Values.clickhouse.resources.cpu }}
+                  cpu: {{ .Values.clickhouse.resources.cpu }}
+                  {{- end }}
                 limits:
-                  memory: {{ $.Values.clickhouse.resources.memory }}
-                  cpu: {{ $.Values.clickhouse.resources.cpu}}
+                  {{- if .Values.clickhouse.resources.memory }}
+                  memory: {{ .Values.clickhouse.resources.memory }}
+                  {{- end }}
+                  {{- if .Values.clickhouse.resources.cpu }}
+                  cpu: {{ .Values.clickhouse.resources.cpu }}
+                  {{- end }}
+              {{- end }}
+              {{- end }}
 
     volumeClaimTemplates:
       - name: data
@@ -143,4 +159,4 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: {{ $.Values.clickhouse.resources.storage }}
+              storage: {{ .Values.clickhouse.resources.storage | default "10Gi" }}

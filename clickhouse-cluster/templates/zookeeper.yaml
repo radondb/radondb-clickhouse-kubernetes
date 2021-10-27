@@ -1,3 +1,4 @@
+{{- if ne .Values.zookeeper.install true }}
 # Setup Service to provide access to Zookeeper for clients
 apiVersion: v1
 kind: Service
@@ -65,7 +66,7 @@ spec:
     matchLabels:
       app: zk-{{ .Release.Name }}
   serviceName: zk-server-{{ .Release.Name }}
-  replicas: {{ $.Values.zookeeper.replicas }}
+  replicas: {{ .Values.zookeeper.replicas | default 3 }}
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
@@ -91,15 +92,27 @@ spec:
                 topologyKey: "kubernetes.io/hostname"
       containers:
         - name: kubernetes-zookeeper
-          imagePullPolicy: {{ $.Values.zookeeper.imagePullPolicy }}
-          image: {{ $.Values.zookeeper.image }}
+          image: {{ .Values.zookeeper.image | default "radondb/zookeeper:3.6.2" }}
+          imagePullPolicy: {{ .Values.zookeeper.imagePullPolicy | default "Always" }}
+          {{- if .Values.zookeeper.resources }}
+          {{- if or .Values.zookeeper.resources.memory .Values.zookeeper.resources.cpu }}
           resources:
             requests:
-              memory: {{ $.Values.zookeeper.resources.memory }}
-              cpu: {{ $.Values.zookeeper.resources.cpu }}
+              {{- if .Values.zookeeper.resources.memory }}
+              memory: {{ .Values.zookeeper.resources.memory }}
+              {{- end }}
+              {{- if .Values.zookeeper.resources.cpu }}
+              cpu: {{ .Values.zookeeper.resources.cpu }}
+              {{- end }}
             limits:
-              memory: {{ $.Values.zookeeper.resources.memory }}
-              cpu: {{ $.Values.zookeeper.resources.cpu }}
+              {{- if .Values.zookeeper.resources.memory }}
+              memory: {{ .Values.zookeeper.resources.memory }}
+              {{- end }}
+              {{- if .Values.zookeeper.resources.cpu }}
+              cpu: {{ .Values.zookeeper.resources.cpu }}
+              {{- end }}
+          {{- end }}
+          {{- end }}
           ports:
             - containerPort: 2181
               name: client
@@ -199,4 +212,5 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: {{ $.Values.zookeeper.resources.storage }}
+            storage: {{ .Values.zookeeper.resources.storage }}
+{{- end }}

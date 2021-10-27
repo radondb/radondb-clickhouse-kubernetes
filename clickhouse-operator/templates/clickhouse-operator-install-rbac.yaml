@@ -16,6 +16,18 @@ metadata:
   name: clickhouse-operator-{{ .Release.Namespace }}
 rules:
   - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - create
+      - update
+      - delete
+      - get
+      - list
+      - patch
+      - watch
+  - apiGroups:
       - ""
     resources:
       - configmaps
