@@ -1,6 +1,6 @@
 Contents
 =================
-
+- [Contents](#contents)
 - [Deploy Radondb ClickHouse On Kubernetes](#deploy-radondb-clickhouse-on-kubernetes)
   - [Introduction](#introduction)
   - [Prerequisites](#prerequisites)
@@ -12,21 +12,22 @@ Contents
       - [Check the Status of Pod](#check-the-status-of-pod)
       - [Check the Status of SVC](#check-the-status-of-svc)
   - [Access RadonDB ClickHouse](#access-radondb-clickhouse)
-    - [Use pod](#use-pod)
-    - [Use Service](#use-service)
+    - [Pod](#pod)
+    - [Service](#service)
   - [Persistence](#persistence)
+  - [Configuration](#configuration)
 
 # Deploy Radondb ClickHouse On Kubernetes
 
 ## Introduction
 
-RadonDB ClickHouse is an open-source, cloud-native, highly availability cluster solutions based on [ClickHouse](https://clickhouse.tech/).
+RadonDB ClickHouse is an open-source, cloud-native, highly availability cluster solutions based on [ClickHouse](https://clickhouse.tech/). It provides features such as high availability, PB storage, real-time analytical, architectural stability and scalability.
 
 This tutorial demonstrates how to deploy RadonDB ClickHouse on Kubernetes.
 
 ## Prerequisites
 
-- You have created a Kubernetes Cluster.
+- You have created a Kubernetes cluster.
 
 ## Procedure
 
@@ -39,7 +40,7 @@ $ helm repo add <repoName> https://radondb.github.io/radondb-clickhouse-kubernet
 $ helm repo update
 ```
 
-**Expected output:**
+**Expected output**
 
 ```shell
 $ helm repo add ck https://radondb.github.io/radondb-clickhouse-kubernetes/
@@ -55,10 +56,10 @@ Update Complete. ⎈Happy Helming!⎈
 ### Step 2 :  Install RadonDB ClickHouse Operator
 
 ```bash
-$ helm install --generate-name -n <Namespace> <repoName>/<appName>
+$ helm install --generate-name -n <nameSpace> <repoName>/<appName>
 ```
 
-**Expected output:**
+**Expected output**
 
 ```shell
 $ helm install clickhouse-operator ck/clickhouse-operator -n kube-system
@@ -77,10 +78,13 @@ TEST SUITE: None
 ### Step 3 :  Install RadonDB ClickHouse Cluster
 
 ```bash
-$ helm install --generate-name <repoName>/clickhouse-cluster -n <Namespace>
+$ helm install --generate-name <repoName>/clickhouse-cluster -n <nameSpace>
+  --set <para_name>=<para_value>
 ```
 
-**Expected output:**
+For more information about cluter parameters, see [Configuration](#configuration).
+
+**Expected output**
 
 ```shell
 $ helm install clickhouse ck/clickhouse-cluster -n test
@@ -97,10 +101,10 @@ TEST SUITE: None
 #### Check the Status of Pod
 
 ```bash
-$ kubectl get pods -n <Namespace>
+$ kubectl get pods -n <nameSpace>
 ```
 
-**Expected output:**
+**Expected output**
 
 ```shell
 $ kubectl get pods -n test
@@ -115,10 +119,10 @@ pod/zk-clickhouse-cluster-2         1/1     Running   0          3m13s
 #### Check the Status of SVC
 
 ```bash
-$ kubectl get service -n <Namespace>
+$ kubectl get service -n <nameSpace>
 ```
 
-**Expected output:**
+**Expected output**
 
 ```shell
 $ kubectl get service -n test
@@ -132,15 +136,15 @@ service/zk-server-clickhouse-cluster  ClusterIP   None            <none>        
 
 ## Access RadonDB ClickHouse
 
-### Use pod
+### Pod
 
 You can directly connect to ClickHouse Pod with `kubectl`.
 
 ```bash
-$ kubectl exec -it <podName> -n <Namespace> -- clickhouse-client --user=<userName> --password=<userPassword>
+$ kubectl exec -it <podName> -n <nameSpace> -- clickhouse-client --user=<userName> --password=<userPassword>
 ```
 
-**Expected output:**
+**Expected output**
 
 ```shell
 $ kubectl get pods |grep clickhouse
@@ -151,11 +155,11 @@ $ kubectl exec -it chi-ClickHouse-replicas-0-0-0 -- clickhouse-client -u clickho
 chi-ClickHouse-replicas-0-0-0
 ```
 
-### Use Service
+### Service
 
 The Service `spec.type` is `ClusterIP`, so you need to create a client to connect the service.
 
-**Expected output:**
+**Expected output**
 
 ```
 $ kubectl get service |grep clickhouse
@@ -178,6 +182,34 @@ In default, PVC mount on the `/var/lib/clickhouse` directory.
 
 2. You should create a PVC that is automatically bound to a suitable PersistentVolume(PV). 
 
-> **Notice**
+> **Notices**
 > 
 > PVC can use different PV, so using the different PV show the different performance.
+
+## Configuration
+
+| Parameter |  Description  |  Default Value |
+|:----|:----|:----|
+|   **ClickHouse**   |     |    |
+|   `clickhouse.clusterName`   |  ClickHouse cluster name. | all-nodes  |
+|   `clickhouse.shardscount`   |  Shards count. Once confirmed, it cannot be reduced.  |   1  |
+|   `clickhouse.replicascount`   |  Replicas count. Once confirmed, it cannot be modified.  |   2  |
+|   `clickhouse.image`   |  ClickHouse image name, it is not recommended to modify.  | radondb/clickhouse-server:v21.1.3.32-stable  |
+|   `clickhouse.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  | IfNotPresent  |
+|   `clickhouse.resources.memory`   |  K8s memory resources should be requested by a single Pod.  |  1Gi |
+|   `clickhouse.resources.cpu`   |  K8s CPU resources should be requested by a single Pod.  |  0.5 |
+|   `clickhouse.resources.storage`   |  K8s Storage resources should be requested by a single Pod.  |  10Gi  |
+|   `clickhouse.user`   |  ClickHouse user array. Each user needs to contain a username, password and networks array.  | [{"username": "clickhouse", "password": "c1ickh0use0perator", "networks": ["127.0.0.1", "::/0"]}]  |
+|   `clickhouse.port.tcp`   |  Port for the native interface.  |  9000  |
+|   `clickhouse.port.http`   |  Port for HTTP/REST interface.  |  8123  |
+|   `clickhouse.svc.type`   |  K8s service type. The value can be ClusterIP/NodePort/LoadBalancer.  |  ClusterIP  |
+|   `clickhouse.svc.qceip`   |  If the value of type is LoadBalancer, You need to configure loadbalancer that provided by third-party platforms.     |  nil   |
+|   **ZooKeeper**   |     |    |
+|   `zookeeper.install`   |  Whether to create ZooKeeper by operator.  |  true  |
+|   `zookeeper.port`   |  ZooKeeper service port.   |  2181  |
+|   `zookeeper.replicas`   |  ZooKeeper cluster replicas count.  |  3  |
+|   `zookeeper.image`   |  ZooKeeper image name, it is not recommended to modify.  |  Deprecated, if install = true  |
+|   `zookeeper.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  |  Deprecated, if install = true  |
+|   `zookeeper.resources.memory`   |  K8s memory resources should be requested by a single Pod.  | Deprecated, if install = true  |
+|   `zookeeper.resources.cpu`   |  K8s CPU resources should be requested by a single Pod.  |  Deprecated, if install = true  |
+|   `zookeeper.resources.storage`   |  K8s storage resources should be requested by a single Pod.  |  Deprecated, if install = true  |
