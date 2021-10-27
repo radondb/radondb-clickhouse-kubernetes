@@ -29,7 +29,7 @@ For a list of all configurable options and variables see [values.yaml](values.ya
 This helm chart is published under the Apache License, Version 2.0.
 See [LICENSE.md](LICENSE.md) for more information.
 
-Copyright (c) by [TCeason](https://tceason.github.io).
+Copyright (c) by [RadonDB](https://github.com/radondb).
 
 ### Attributions
 
