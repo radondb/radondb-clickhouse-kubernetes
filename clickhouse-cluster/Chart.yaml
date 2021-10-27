@@ -1,7 +1,7 @@
 # This file is part of the ClickHouse Helm Chart
 #    https://github.com/radondb/radondb-clickhouse-kubernetes
 #
-# Copyright 2020 TCeason <tai_chong@foxmail.com>
+# Copyright 2020 Radondb <https://github.com/radondb>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@
 apiVersion: v2
 appVersion: "21.1"
 name: clickhouse-cluster
-Version: 0.1.0
-description: Helm Chart for deploying a sharded and replicated ClickHouse cluster
+type: application
+version: v2.0
+description: Helm Chart for deploying a sharded and replicated ClickHouse cluster on Kubernetes
 home: https://github.com/radondb/radondb-clickhouse-kubernetes
 icon: https://xenondb.pek3b.qingstor.com/icons/radondb.svg
-type: application
-kubeVersion:
+
 keywords:
   - clickhouse
 
@@ -31,9 +31,12 @@ sources:
   - https://github.com/radondb/radondb-clickhouse-kubernetes
 
 maintainers:
-  - email: tai_chong@foxmail.com
-    name: TCeason
+  - name: TCeason
+    email: tai_chong@foxmail.com
     url: https://tceason.github.io/
+  - name: su-houzhen
+    email: suhouzhen2020@gmail.com
+    url: https://su-houzhen.github.io/
 
 # Chart.yaml reference:
 # https://helm.sh/docs/topics/charts/#the-chart-yaml-file
