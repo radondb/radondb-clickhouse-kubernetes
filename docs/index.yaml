@@ -3,9 +3,10 @@ entries:
   clickhouse-cluster:
   - apiVersion: v2
     appVersion: "21.1"
-    created: "2021-08-18T12:38:03.859332119+08:00"
+    created: "2021-10-26T18:49:00.265601241+08:00"
     description: Helm Chart for deploying a sharded and replicated ClickHouse cluster
-    digest: f5f04cb64986f293a2aa0a3a5e93d0049b6bc6153005ab5b4eb25b1a0f7e18fd
+      on Kubernetes
+    digest: c15ac550fff3979fcab8ab7363368b2d831ea843e27c198ad2039c239508abab
     home: https://github.com/radondb/radondb-clickhouse-kubernetes
     icon: https://xenondb.pek3b.qingstor.com/icons/radondb.svg
     keywords:
@@ -14,19 +15,22 @@ entries:
     - email: tai_chong@foxmail.com
       name: TCeason
       url: https://tceason.github.io/
+    - email: suhouzhen2020@gmail.com
+      name: su-houzhen
+      url: https://su-houzhen.github.io/
     name: clickhouse-cluster
     sources:
     - https://github.com/radondb/radondb-clickhouse-kubernetes
     type: application
     urls:
-    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-cluster-0.1.0.tgz
-    version: 0.1.0
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-cluster-v2.0.tgz
+    version: v2.0
   clickhouse-operator:
   - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2021-08-18T12:38:03.860226371+08:00"
-    description: clickhouse-operator Helm chart for Kubernetes
-    digest: 3591818fc94d6b1a3054acbf6743057e1bf412acfaaddf10f989059974c68aa4
+    appVersion: v2.0
+    created: "2021-10-26T18:49:00.266882933+08:00"
+    description: Helm chart for deploying ClickHouse Operator on Kubernetes
+    digest: bd0d1b127eb6bd022dc1e49cc924363fd976d95c62fd82df40dc11a2a8f7d913
     home: https://github.com/radondb/radondb-clickhouse-kubernetes
     keywords:
     - operator
@@ -36,11 +40,16 @@ entries:
     - email: tai_chong@foxmail.com
       name: TCeason
       url: https://tceason.github.io/
+    - email: suhouzhen2020@gmail.com
+      name: su-houzhen
+      url: https://su-houzhen.github.io/
     name: clickhouse-operator
     sources:
+    - https://github.com/altinity/clickhouse-operator
+    - https://github.com/radondb/radondb-clickhouse-operator
     - https://github.com/radondb/radondb-clickhouse-kubernetes
     type: application
     urls:
-    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-operator-0.1.0.tgz
-    version: 0.1.0
-generated: "2021-08-18T12:38:03.857904907+08:00"
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-operator-v2.0.tgz
+    version: v2.0
+generated: "2021-10-26T18:49:00.263684932+08:00"
