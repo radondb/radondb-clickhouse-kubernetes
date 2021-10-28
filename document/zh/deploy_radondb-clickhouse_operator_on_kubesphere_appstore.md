@@ -1,6 +1,7 @@
 Contents
 =================
 
+- [Contents](#contents)
 - [在 KubeSphere 上部署 RadonDB ClickHouse](#在-kubesphere-上部署-radondb-clickhouse)
   - [简介](#简介)
   - [部署准备](#部署准备)
@@ -15,7 +16,7 @@ Contents
 
 ## 简介
 
-RadonDB ClickHouse 是基于 [ClickHouse](https://clickhouse.tech/) 的开源、高可用、云原生集群解决方案。
+RadonDB ClickHouse 是基于 [ClickHouse](https://clickhouse.tech/) 的开源、高可用、云原生集群解决方案。具备高可用、PB 级数据存储、实时数据分析、架构稳定和可扩展等性能。
 
 本教程演示了如何在 KubeSphere 上部署 ClickHouse Operator 和 ClickHouse 集群。
 

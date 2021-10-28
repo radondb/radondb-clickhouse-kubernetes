@@ -1,6 +1,6 @@
 Contents
 =================
-
+- [Contents](#contents)
 - [在 Kubernetes 上部署 RadonDB ClickHouse](#在-kubernetes-上部署-radondb-clickhouse)
   - [简介](#简介)
   - [部署准备](#部署准备)
@@ -15,12 +15,13 @@ Contents
     - [通过 Pod](#通过-pod)
     - [通过 Service](#通过-service)
   - [持久化](#持久化)
+  - [配置](#配置)
 
 # 在 Kubernetes 上部署 RadonDB ClickHouse
 
 ## 简介
 
-RadonDB ClickHouse 是基于 [ClickHouse](https://clickhouse.tech/) 的开源、高可用、云原生集群解决方案。
+RadonDB ClickHouse 是基于 [ClickHouse](https://clickhouse.tech/) 的开源、高可用、云原生集群解决方案。具备高可用、PB 级数据存储、实时数据分析、架构稳定和可扩展等性能。
 
 本教程演示如何使用命令行在 Kubernetes 上部署 RadonDB ClickHouse。
 
@@ -56,7 +57,7 @@ Update Complete. ⎈Happy Helming!⎈
 ### 步骤 2 : 部署 RadonDB ClickHouse Operator
 
 ```bash
-$ helm install --generate-name -n <Namespace> <repoName>/clickhouse-operator
+$ helm install --generate-name -n <nameSpace> <repoName>/clickhouse-operator 
 ```
 
 **预期效果**
@@ -78,8 +79,11 @@ TEST SUITE: None
 ### 步骤 3 : 部署 RadonDB ClickHouse 集群
 
 ```bash
-$ helm install --generate-name <repoName>/clickhouse-cluster -n <Namespace>
+$ helm install --generate-name <repoName>/clickhouse-cluster -n <nameSpace>\
+  --set <para_name>=<para_value>
 ```
+
+更多参数说明，请参见 [配置](#配置)。
 
 **预期效果**
 
@@ -100,7 +104,7 @@ TEST SUITE: None
 执行如下命令，查看创建的集群 Pod 运行状态。
 
 ```bash
-$ kubectl get pods -n <Namespace>
+$ kubectl get pods -n <nameSpace>
 ```
 
 **预期结果**
@@ -120,7 +124,7 @@ pod/zk-clickhouse-cluster-2         1/1     Running   0          3m13s
 执行如行命令，查看集群 SVC 运行状态。
 
 ```bash
-$ kubectl get service -n <Namespace>
+$ kubectl get service -n <nameSpace>
 ```
 
 **预期结果**
@@ -142,7 +146,7 @@ service/zk-server-clickhouse-cluster  ClusterIP   None            <none>        
 通过 `kubectl` 工具直接访问 ClickHouse Pod。
 
 ```bash
-$ kubectl exec -it <podName> -n <Namespace> -- clickhouse-client --user=<userName> --password=<userPassword>
+$ kubectl exec -it <podName> -n <nameSpace> -- clickhouse-client --user=<userName> --password=<userPassword>
 ```
 
 **预期效果**
@@ -183,6 +187,34 @@ chi-ClickHouse-replicas-0-0-0
 1. 创建一个使用 PVC 作为存储的 Pod。
 2. 创建一个 PVC 自动绑定到合适的 PersistentVolume。
 
-> **注意** 
+> **注意**
 > 
 > 在 PersistentVolumeClaim 中，可以配置不同特性的 PersistentVolume。
+
+## 配置
+
+|参数 |  描述 |  默认值 |
+|:----|:----|:----|
+|   **ClickHouse**   |     |    |
+|   `clickhouse.clusterName`   |  ClickHouse cluster name. | all-nodes  |
+|   `clickhouse.shardscount`   |  Shards count. Once confirmed, it cannot be reduced.  |   1  |
+|   `clickhouse.replicascount`   |  Replicas count. Once confirmed, it cannot be modified.  |   2  |
+|   `clickhouse.image`   |  ClickHouse image name, it is not recommended to modify.  | radondb/clickhouse-server:v21.1.3.32-stable  |
+|   `clickhouse.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  | IfNotPresent  |
+|   `clickhouse.resources.memory`   |  K8s memory resources should be requested by a single Pod.  |  1Gi |
+|   `clickhouse.resources.cpu`   |  K8s CPU resources should be requested by a single Pod.  |  0.5 |
+|   `clickhouse.resources.storage`   |  K8s Storage resources should be requested by a single Pod.  |  10Gi  |
+|   `clickhouse.user`   |  ClickHouse user array. Each user needs to contain a username, password and networks array.  | [{"username": "clickhouse", "password": "c1ickh0use0perator", "networks": ["127.0.0.1", "::/0"]}]  |
+|   `clickhouse.port.tcp`   |  Port for the native interface.  |  9000  |
+|   `clickhouse.port.http`   |  Port for HTTP/REST interface.  |  8123  |
+|   `clickhouse.svc.type`   |  K8s service type. The value can be ClusterIP/NodePort/LoadBalancer.  |  ClusterIP  |
+|   `clickhouse.svc.qceip`   |  If the value of type is LoadBalancer, You need to configure loadbalancer that provided by third-party platforms.     |  nil   |
+|   **ZooKeeper**   |     |    |
+|   `zookeeper.install`   |  Whether to create ZooKeeper by operator.  |  true  |
+|   `zookeeper.port`   |  ZooKeeper service port.   |  2181  |
+|   `zookeeper.replicas`   |  ZooKeeper cluster replicas count.  |  3  |
+|   `zookeeper.image`   |  ZooKeeper image name, it is not recommended to modify.  |  Deprecated, if install = true  |
+|   `zookeeper.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  |  Deprecated, if install = true  |
+|   `zookeeper.resources.memory`   |  K8s memory resources should be requested by a single Pod.  | Deprecated, if install = true  |
+|   `zookeeper.resources.cpu`   |  K8s CPU resources should be requested by a single Pod.  |  Deprecated, if install = true  |
+|   `zookeeper.resources.storage`   |  K8s storage resources should be requested by a single Pod.  |  Deprecated, if install = true  |
