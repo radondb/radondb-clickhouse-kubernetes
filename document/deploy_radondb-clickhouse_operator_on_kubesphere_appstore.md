@@ -14,6 +14,8 @@ Contents
 
 # Deploy Radondb ClickHouse On KubeSphere
 
+> English | [中文](zh/deploy_radondb-clickhouse_operator_on_kubesphere_appstore.md)
+
 ## Introduction
 
 RadonDB ClickHouse is an open-source, cloud-native, highly availability cluster solutions based on [ClickHouse](https://clickhouse.tech/). It provides features such as high availability, PB storage, real-time analytical, architectural stability and scalability.
