@@ -16,8 +16,11 @@ Contents
     - [Service](#service)
   - [Persistence](#persistence)
   - [Configuration](#configuration)
+  - [Custom Configuration](#custom-configuration)
 
 # Deploy Radondb ClickHouse On Kubernetes
+
+> English | [中文](zh/deploy_radondb-clickhouse_operator_on_kubernetes.md)
 
 ## Introduction
 
@@ -82,7 +85,8 @@ $ helm install --generate-name <repoName>/clickhouse-cluster -n <nameSpace>
   --set <para_name>=<para_value>
 ```
 
-For more information about cluter parameters, see [Configuration](#configuration).
+- For more information about cluter parameters, see [Configuration](#configuration).
+- If you need to customize many parameters, you can modify `values.yaml` file. For details, see [Custom Configuration](#custom-configuration).
 
 **Expected output**
 
@@ -213,3 +217,16 @@ In default, PVC mount on the `/var/lib/clickhouse` directory.
 |   `zookeeper.resources.memory`   |  K8s memory resources should be requested by a single Pod.  | Deprecated, if install = true  |
 |   `zookeeper.resources.cpu`   |  K8s CPU resources should be requested by a single Pod.  |  Deprecated, if install = true  |
 |   `zookeeper.resources.storage`   |  K8s storage resources should be requested by a single Pod.  |  Deprecated, if install = true  |
+
+## Custom Configuration
+
+If you need to customize many parameters, you can modify [values.yaml](/clickhouse-cluster/values.yaml).
+
+1. Download the `values.yaml` file.
+2. Modify the parameter values in the `values.yaml`.
+3. Run the following command to deploy the cluster.
+
+```bash
+$ helm install --generate-name <repoName>/clickhouse-cluster -n <nameSpace>\
+  -f /<path>/to/values.yaml
+```

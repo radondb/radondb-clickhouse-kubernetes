@@ -14,6 +14,8 @@ Contents
 
 # 在 KubeSphere 上部署 RadonDB ClickHouse
 
+> [English](../deploy_radondb-clickhouse_operator_on_kubesphere_appstore.md) | 中文
+
 ## 简介
 
 RadonDB ClickHouse 是基于 [ClickHouse](https://clickhouse.tech/) 的开源、高可用、云原生集群解决方案。具备高可用、PB 级数据存储、实时数据分析、架构稳定和可扩展等性能。

@@ -16,8 +16,11 @@ Contents
     - [通过 Service](#通过-service)
   - [持久化](#持久化)
   - [配置](#配置)
+  - [自定义配置](#自定义配置)
 
 # 在 Kubernetes 上部署 RadonDB ClickHouse
+
+> [English](../deploy_radondb-clickhouse_operator_on_kubernetes.md) | 中文
 
 ## 简介
 
@@ -83,7 +86,8 @@ $ helm install --generate-name <repoName>/clickhouse-cluster -n <nameSpace>\
   --set <para_name>=<para_value>
 ```
 
-更多参数说明，请参见 [配置](#配置)。
+- 更多参数说明，请参见 [配置](#配置)。
+- 若需自定义更多参数，可修改集群 `values.yaml` 文件中配置，详细操作说明请参见[自定义配置](#自定义配置)。
 
 **预期效果**
 
@@ -218,3 +222,16 @@ chi-ClickHouse-replicas-0-0-0
 |   `zookeeper.resources.memory`   |  K8s memory resources should be requested by a single Pod.  | Deprecated, if install = true  |
 |   `zookeeper.resources.cpu`   |  K8s CPU resources should be requested by a single Pod.  |  Deprecated, if install = true  |
 |   `zookeeper.resources.storage`   |  K8s storage resources should be requested by a single Pod.  |  Deprecated, if install = true  |
+
+## 自定义配置
+
+若需自定义更多参数，可通过修改集群 [values.yaml](/clickhouse-cluster/values.yaml) 文件中配置。
+
+1. 下载 `values.yaml` 文件。
+2. 修改 `values.yaml` 文件中参数值。
+3. 执行如下命令，部署集群。
+
+```bash
+$ helm install --generate-name <repoName>/clickhouse-cluster -n <nameSpace>\
+  -f /<path>/to/values.yaml
+```
