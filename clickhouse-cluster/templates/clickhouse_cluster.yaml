@@ -17,6 +17,8 @@ spec:
       install: true
       replica: {{ .Values.zookeeper.replicas | default 3 }}
       port: {{ .Values.zookeeper.port | default 2181 }}
+      image: {{ .Values.zookeeper.image | default "radondb/zookeeper:3.6.2" }}
+      imagePullPolicy: {{ .Values.zookeeper.imagePullPolicy | default "Always" }}
       {{- else }}
       nodes:
         {{- range untilStep 0 $zkreplicas 1 -}}
@@ -85,7 +87,6 @@ spec:
     templates:
       podTemplate: pod-template-with-volume
       dataVolumeClaimTemplate: data
-      logVolumeClaimTemplate: data
       serviceTemplate: chi-svc-template
 
   templates:
@@ -150,6 +151,18 @@ spec:
                   {{- end }}
               {{- end }}
               {{- end }}
+            - name: clickhouse-log
+              image: {{ .Values.busybox.image | default "busybox"  }}
+              imagePullPolicy: {{ .Values.busybox.imagePullPolicy | default "Always"  }}
+              volumeMounts:
+                - name: data
+                  mountPath: /var/lib/clickhouse
+              command:
+                - /bin/sh
+                - '-c'
+                - '--'
+              args:
+                - while true; do sleep 30; done;
 
     volumeClaimTemplates:
       - name: data

@@ -123,6 +123,14 @@ openAPIV3Schema:
                   type: string
                 install:
                   type: boolean
+                image:
+                  type: string
+                imagePullPolicy:
+                  type: string
+                  enum:
+                    - Always
+                    - IfNotPresent
+                    - Never
                 replica:
                   type: integer
                   minimum: 0
@@ -187,8 +195,18 @@ openAPIV3Schema:
                         type: string
                       install:
                         type: boolean
+                      image:
+                        type: string
+                      imagePullPolicy:
+                        type: string
+                        enum:
+                          - Always
+                          - IfNotPresent
+                          - Never
                       replica:
                         type: integer
+                        minimum: 0
+                        maximum: 9
                       port:
                         type: integer
                         minimum: 0
@@ -782,6 +800,14 @@ openAPIV3Schema:
                   type: string
                 install:
                   type: boolean
+                image:
+                  type: string
+                imagePullPolicy:
+                  type: string
+                  enum:
+                    - Always
+                    - IfNotPresent
+                    - Never
                 replica:
                   type: integer
                   minimum: 0
@@ -846,8 +872,18 @@ openAPIV3Schema:
                         type: string
                       install:
                         type: boolean
+                      image:
+                        type: string
+                      imagePullPolicy:
+                        type: string
+                        enum:
+                          - Always
+                          - IfNotPresent
+                          - Never
                       replica:
                         type: integer
+                        minimum: 0
+                        maximum: 9
                       port:
                         type: integer
                         minimum: 0

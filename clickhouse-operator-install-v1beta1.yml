@@ -188,6 +188,14 @@ spec:
                       type: string
                     install:
                       type: boolean
+                    image:
+                      type: string
+                    imagePullPolicy:
+                      type: string
+                      enum:
+                        - Always
+                        - IfNotPresent
+                        - Never
                     replica:
                       type: integer
                       minimum: 0
@@ -252,8 +260,18 @@ spec:
                             type: string
                           install:
                             type: boolean
+                          image:
+                            type: string
+                          imagePullPolicy:
+                            type: string
+                            enum:
+                              - Always
+                              - IfNotPresent
+                              - Never
                           replica:
                             type: integer
+                            minimum: 0
+                            maximum: 9
                           port:
                             type: integer
                             minimum: 0
@@ -910,6 +928,14 @@ spec:
                       type: string
                     install:
                       type: boolean
+                    image:
+                      type: string
+                    imagePullPolicy:
+                      type: string
+                      enum:
+                        - Always
+                        - IfNotPresent
+                        - Never
                     replica:
                       type: integer
                       minimum: 0
@@ -974,8 +1000,18 @@ spec:
                             type: string
                           install:
                             type: boolean
+                          image:
+                            type: string
+                          imagePullPolicy:
+                            type: string
+                            enum:
+                              - Always
+                              - IfNotPresent
+                              - Never
                           replica:
                             type: integer
+                            minimum: 0
+                            maximum: 9
                           port:
                             type: integer
                             minimum: 0
@@ -2079,7 +2115,7 @@ spec:
             name: etc-clickhouse-operator-usersd-files
       containers:
         - name: clickhouse-operator
-          image: radondb/chronus-operator:2.1
+          image: radondb/chronus-operator:2.1.1
           imagePullPolicy: Always
           volumeMounts:
             - name: etc-clickhouse-operator-folder
@@ -2144,7 +2180,7 @@ spec:
                   resource: limits.memory
 
         - name: metrics-exporter
-          image: radondb/chronus-metrics-operator:2.1
+          image: radondb/chronus-metrics-operator:2.1.1
           imagePullPolicy: Always
           volumeMounts:
             - name: etc-clickhouse-operator-folder
