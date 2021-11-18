@@ -47,7 +47,7 @@ spec:
             name: etc-clickhouse-operator-usersd-files
       containers:
         - name: clickhouse-operator
-          image: {{ .Values.operator.image | default "radondb/chronus-operator:2.1" }}
+          image: {{ .Values.operator.image | default "radondb/chronus-operator:2.1.1" }}
           imagePullPolicy: {{ .Values.operator.imagePullPolicy | default "Always" }}
           volumeMounts:
             - name: etc-clickhouse-operator-folder
@@ -112,7 +112,7 @@ spec:
                   resource: limits.memory
 
         - name: metrics-exporter
-          image: {{ .Values.metrics_operator.image | default "radondb/chronus-metrics-operator:2.1" }}
+          image: {{ .Values.metrics_operator.image | default "radondb/chronus-metrics-operator:2.1.1" }}
           imagePullPolicy: {{ .Values.metrics_operator.imagePullPolicy | default "Always" }}
           volumeMounts:
             - name: etc-clickhouse-operator-folder
