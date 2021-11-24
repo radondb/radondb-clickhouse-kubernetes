@@ -1,51 +1,52 @@
 Contents
 =================
 - [Contents](#contents)
-- [Deploy Radondb ClickHouse On Kubernetes](#deploy-radondb-clickhouse-on-kubernetes)
-  - [Introduction](#introduction)
-  - [Prerequisites](#prerequisites)
-  - [Procedure](#procedure)
-    - [Step 1 : Add Helm Repository](#step-1--add-helm-repository)
-    - [Step 2 :  Install RadonDB ClickHouse Operator](#step-2---install-radondb-clickhouse-operator)
-    - [Step 3 :  Install RadonDB ClickHouse Cluster](#step-3---install-radondb-clickhouse-cluster)
-    - [Step 4 :  Verification](#step-4---verification)
-      - [Check the Status of Pod](#check-the-status-of-pod)
-      - [Check the Status of SVC](#check-the-status-of-svc)
-  - [Access RadonDB ClickHouse](#access-radondb-clickhouse)
-    - [Pod](#pod)
-    - [Service](#service)
-  - [Persistence](#persistence)
-  - [Configuration](#configuration)
-  - [Custom Configuration](#custom-configuration)
+- [在 Kubernetes 上部署 RadonDB ClickHouse](#在-kubernetes-上部署-radondb-clickhouse)
+  - [简介](#简介)
+  - [部署准备](#部署准备)
+  - [部署步骤](#部署步骤)
+    - [步骤 1 : 添加仓库](#步骤-1--添加仓库)
+    - [步骤 2 : 部署 RadonDB ClickHouse Operator](#步骤-2--部署-radondb-clickhouse-operator)
+    - [步骤 3 : 部署 RadonDB ClickHouse 集群](#步骤-3--部署-radondb-clickhouse-集群)
+    - [步骤 4 : 部署校验](#步骤-4--部署校验)
+      - [查看 Pod 运行状态](#查看-pod-运行状态)
+      - [查询 SVC 运行状态](#查询-svc-运行状态)
+  - [访问 RadonDB ClickHouse](#访问-radondb-clickhouse)
+    - [通过 Pod](#通过-pod)
+    - [通过 Service](#通过-service)
+  - [持久化](#持久化)
+  - [配置](#配置)
+  - [自定义配置](#自定义配置)
 
-# Deploy Radondb ClickHouse On Kubernetes
+# 在 Kubernetes 上部署 RadonDB ClickHouse
 
-> English | [中文](zh/deploy_radondb-clickhouse_operator_on_kubernetes.md)
+> [English](../deploy_radondb-clickhouse_with_operator_on_kubernetes.md) | 中文
 
-## Introduction
+## 简介
 
-RadonDB ClickHouse is an open-source, cloud-native, highly availability cluster solutions based on [ClickHouse](https://clickhouse.tech/). It provides features such as high availability, PB storage, real-time analytical, architectural stability and scalability.
+RadonDB ClickHouse 是基于 [ClickHouse](https://clickhouse.tech/) 的开源、高可用、云原生集群解决方案。具备高可用、PB 级数据存储、实时数据分析、架构稳定和可扩展等性能。
 
-This tutorial demonstrates how to deploy RadonDB ClickHouse on Kubernetes.
+本教程演示如何使用命令行在 Kubernetes 上部署 RadonDB ClickHouse。
 
-## Prerequisites
+## 部署准备
 
-- You have created a Kubernetes cluster.
+- 已成功部署 Kubernetes 集群。
+- 已安装 Helm 包管理工具。
 
-## Procedure
+## 部署步骤
 
-### Step 1 : Add Helm Repository
+### 步骤 1 : 添加仓库
 
-Add and update helm repository.
+添加并更新 Helm 仓库。
 
 ```bash
 $ helm repo add <repoName> https://radondb.github.io/radondb-clickhouse-kubernetes/
 $ helm repo update
 ```
 
-**Expected output**
+**预期效果**
 
-```shell
+```bash
 $ helm repo add ck https://radondb.github.io/radondb-clickhouse-kubernetes/
 "ck" has been added to your repositories
 
@@ -53,18 +54,17 @@ $ helm repo update
 Hang tight while we grab the latest from your chart repositories...
 ...Successfully got an update from the "ck" chart repository
 Update Complete. ⎈Happy Helming!⎈
-
 ```
 
-### Step 2 :  Install RadonDB ClickHouse Operator
+### 步骤 2 : 部署 RadonDB ClickHouse Operator
 
 ```bash
-$ helm install --generate-name -n <nameSpace> <repoName>/<appName>
+$ helm install --generate-name -n <nameSpace> <repoName>/clickhouse-operator
 ```
 
-**Expected output**
+**预期效果**
 
-```shell
+```bash
 $ helm install clickhouse-operator ck/clickhouse-operator -n kube-system
 NAME: clickhouse-operator
 LAST DEPLOYED: Wed Aug 17 14:43:44 2021
@@ -74,23 +74,23 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-> **Notice**
+> **注意**
 > 
-> This command will install ClickHouse Operator in the namespace `kube-system`. Therefore, ClickHouse Operator only needs to be installed once in a Kubernetes cluster.
+> 上述示例 ClickHouse Operator 将会被安装在 `kube-system` 命名空间下，因此一个 Kubernetes 集群只需要安装一次 ClickHouse Operator。
 
-### Step 3 :  Install RadonDB ClickHouse Cluster
+### 步骤 3 : 部署 RadonDB ClickHouse 集群
 
 ```bash
-$ helm install --generate-name <repoName>/clickhouse-cluster -n <nameSpace>
+$ helm install --generate-name <repoName>/clickhouse-cluster -n <nameSpace>\
   --set <para_name>=<para_value>
 ```
 
-- For more information about cluter parameters, see [Configuration](#configuration).
-- If you need to customize many parameters, you can modify `values.yaml` file. For details, see [Custom Configuration](#custom-configuration).
+- 更多参数说明，请参见 [配置](#配置)。
+- 若需自定义更多参数，可修改集群 `values.yaml` 文件中配置，详细操作说明请参见[自定义配置](#自定义配置)。
 
-**Expected output**
+**预期效果**
 
-```shell
+```bash
 $ helm install clickhouse ck/clickhouse-cluster -n test
 NAME: clickhouse
 LAST DEPLOYED: Wed Aug 17 14:48:12 2021
@@ -100,17 +100,19 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-### Step 4 :  Verification
+### 步骤 4 : 部署校验
 
-#### Check the Status of Pod
+#### 查看 Pod 运行状态
+
+执行如下命令，查看创建的集群 Pod 运行状态。
 
 ```bash
 $ kubectl get pods -n <nameSpace>
 ```
 
-**Expected output**
+**预期结果**
 
-```shell
+```bash
 $ kubectl get pods -n test
 NAME                                READY   STATUS    RESTARTS   AGE
 pod/chi-ClickHouse-replicas-0-0-0   2/2     Running   0          3m13s
@@ -120,15 +122,17 @@ pod/zk-clickhouse-cluster-1         1/1     Running   0          3m13s
 pod/zk-clickhouse-cluster-2         1/1     Running   0          3m13s
 ```
 
-#### Check the Status of SVC
+#### 查询 SVC 运行状态
+
+执行如行命令，查看集群 SVC 运行状态。
 
 ```bash
 $ kubectl get service -n <nameSpace>
 ```
 
-**Expected output**
+**预期结果**
 
-```shell
+```bash
 $ kubectl get service -n test
 NAME                                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
 service/chi-ClickHouse-replicas-0-0   ClusterIP   None            <none>        8123/TCP,9000/TCP,9009/TCP      2m53s
@@ -138,19 +142,19 @@ service/zk-client-clickhouse-cluster  ClusterIP   10.107.33.51    <none>        
 service/zk-server-clickhouse-cluster  ClusterIP   None            <none>        2888/TCP,3888/TCP               3m13s
 ```
 
-## Access RadonDB ClickHouse
+## 访问 RadonDB ClickHouse
 
-### Pod
+### 通过 Pod
 
-You can directly connect to ClickHouse Pod with `kubectl`.
+通过 `kubectl` 工具直接访问 ClickHouse Pod。
 
 ```bash
 $ kubectl exec -it <podName> -n <nameSpace> -- clickhouse-client --user=<userName> --password=<userPassword>
 ```
 
-**Expected output**
+**预期效果**
 
-```shell
+```bash
 $ kubectl get pods |grep clickhouse
 chi-ClickHouse-replicas-0-0-0   1/1     Running   0          8m50s
 chi-ClickHouse-replicas-0-1-0   1/1     Running   0          8m50s
@@ -159,40 +163,42 @@ $ kubectl exec -it chi-ClickHouse-replicas-0-0-0 -- clickhouse-client -u clickho
 chi-ClickHouse-replicas-0-0-0
 ```
 
-### Service
+### 通过 Service
 
-The Service `spec.type` is `ClusterIP`, so you need to create a client to connect the service.
-
-**Expected output**
-
+```bash
+$ echo '<query>' | curl 'http://<username>:<password>@<svcIP>:<HTTPPort>/' --data-binary @-
 ```
+
+**预期效果**
+
+```bash
 $ kubectl get service |grep clickhouse
 clickhouse-ClickHouse            ClusterIP   10.96.137.152   <none>        9000/TCP,8123/TCP   12m
 chi-ClickHouse-replicas-0-0      ClusterIP   None            <none>        9000/TCP,8123/TCP   12m
 chi-ClickHouse-replicas-0-1      ClusterIP   None            <none>        9000/TCP,8123/TCP   12m
 
-$ kubectl exec -it clickhouse-ClickHouse -- clickhouse-client -u clickhouse --password=c1ickh0use0perator -h 10.96.137.152 --query='select hostName()'
+$ echo 'select hostname()' | curl 'http://clickhouse:c1ickh0use0perator@10.96.137.152:8123/' --data-binary @-
 chi-ClickHouse-replicas-0-1-0
-$ kubectl exec -it clickhouse-ClickHouse -- clickhouse-client -u clickhouse --password=c1ickh0use0perator -h 10.96.137.152 --query='select hostName()'
+$ echo 'select hostname()' | curl 'http://clickhouse:c1ickh0use0perator@10.96.137.152:8123/' --data-binary @-
 chi-ClickHouse-replicas-0-0-0
 ```
 
-## Persistence
+## 持久化
 
-You can configure a Pod to use a PersistentVolumeClaim(PVC) for storage. 
-In default, PVC mount on the `/var/lib/clickhouse` directory.
+配置 Pod 使用 PersistentVolumeClaim 作为存储，实现 ClickHouse 持久化。
 
-1. You should create a Pod that uses the above PVC for storage.
+默认情况下，每个 Pod 将创建一个 PVC ，并将其挂载到 `/var/lib/clickhouse` 目录。
 
-2. You should create a PVC that is automatically bound to a suitable PersistentVolume(PV). 
+1. 创建一个使用 PVC 作为存储的 Pod。
+2. 创建一个 PVC 自动绑定到合适的 PersistentVolume。
 
-> **Notices**
+> **注意**
 > 
-> PVC can use different PV, so using the different PV show the different performance.
+> 在 PersistentVolumeClaim 中，可以配置不同特性的 PersistentVolume。
 
-## Configuration
+## 配置
 
-| Parameter |  Description  |  Default Value |
+|参数 |  描述 |  默认值 |
 |:----|:----|:----|
 |   **ClickHouse**   |     |    |
 |   `clickhouse.clusterName`   |  ClickHouse cluster name. | all-nodes  |
@@ -221,13 +227,13 @@ In default, PVC mount on the `/var/lib/clickhouse` directory.
 |   `zookeeper.resources.cpu`   |  K8s CPU resources should be requested by a single Pod.  |  Deprecated, if install = true  |
 |   `zookeeper.resources.storage`   |  K8s storage resources should be requested by a single Pod.  |  Deprecated, if install = true  |
 
-## Custom Configuration
+## 自定义配置
 
-If you need to customize many parameters, you can modify [values.yaml](/clickhouse-cluster/values.yaml).
+若需自定义更多参数，可通过修改集群 [values.yaml](../../clickhouse-cluster/values.yaml) 文件中配置。
 
-1. Download the `values.yaml` file.
-2. Modify the parameter values in the `values.yaml`.
-3. Run the following command to deploy the cluster.
+1. 下载 `values.yaml` 文件。
+2. 修改 `values.yaml` 文件中参数值。
+3. 执行如下命令，部署集群。
 
 ```bash
 $ helm install --generate-name <repoName>/clickhouse-cluster -n <nameSpace>\

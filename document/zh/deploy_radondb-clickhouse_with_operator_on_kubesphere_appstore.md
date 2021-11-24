@@ -14,7 +14,7 @@ Contents
 
 # 在 KubeSphere 上部署 RadonDB ClickHouse
 
-> [English](../deploy_radondb-clickhouse_operator_on_kubesphere_appstore.md) | 中文
+> [English](../deploy_radondb-clickhouse_with_operator_on_kubesphere_appstore.md) | 中文
 
 ## 简介
 
