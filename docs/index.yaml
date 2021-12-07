@@ -3,14 +3,38 @@ entries:
   clickhouse-cluster:
   - apiVersion: v2
     appVersion: "21.1"
-    created: "2021-11-16T18:00:43.171951693+08:00"
+    created: "2021-12-07T15:43:06.681773693+08:00"
+    description: Helm Chart for deploying a sharded and replicated ClickHouse cluster
+      on Kubernetes
+    digest: cc7608078d611bb2c64dbe7104c009afb642de36337ccb30e10a413160b09ea1
+    home: https://github.com/radondb/radondb-clickhouse-kubernetes
+    icon: https://xenondb.pek3b.qingstor.com/icons/radondb.svg
+    keywords:
+    - clickhouse
+    maintainers:
+    - email: tai_chong@foxmail.com
+      name: TCeason
+      url: https://tceason.github.io/
+    - email: suhouzhen2020@gmail.com
+      name: su-houzhen
+      url: https://su-houzhen.github.io/
+    name: clickhouse-cluster
+    sources:
+    - https://github.com/radondb/radondb-clickhouse-kubernetes
+    type: application
+    urls:
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-cluster-v2.1.1.tgz
+    version: v2.1.1
+  - apiVersion: v2
+    appVersion: "21.1"
+    created: "2021-12-07T15:43:06.682437253+08:00"
     description: Helm Chart for deploying a sharded and replicated ClickHouse cluster
       on Kubernetes
     digest: 55f0fbdcdfa7e52f3917ee275fe8f6febc3a32008b9d4f8740238e1f52bb09b9
-    home: https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    home: https://github.com/radondb/radondb-clickhouse-kubernetes
     icon: https://xenondb.pek3b.qingstor.com/icons/radondb.svg
     keywords:
-    - clickhouse-cluster-helm
+    - clickhouse
     maintainers:
     - email: tai_chong@foxmail.com
       name: TCeason
@@ -18,23 +42,23 @@ entries:
     - email: suhouzhen2020@gmail.com
       name: su-houzhen
       url: https://su-houzhen.github.io/
-    name: clickhouse-cluster-helm-cluster
+    name: clickhouse-cluster
     sources:
-    - https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    - https://github.com/radondb/radondb-clickhouse-kubernetes
     type: application
     urls:
-    - https://radondb.github.io/radondb-clickhouse-cluster-helm-kubernetes/clickhouse-cluster-helm-cluster-v2.1.tgz
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-cluster-v2.1.tgz
     version: v2.1
   - apiVersion: v2
     appVersion: "21.1"
-    created: "2021-11-16T18:00:43.171046342+08:00"
+    created: "2021-12-07T15:43:06.681023861+08:00"
     description: Helm Chart for deploying a sharded and replicated ClickHouse cluster
       on Kubernetes
     digest: c15ac550fff3979fcab8ab7363368b2d831ea843e27c198ad2039c239508abab
-    home: https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    home: https://github.com/radondb/radondb-clickhouse-kubernetes
     icon: https://xenondb.pek3b.qingstor.com/icons/radondb.svg
     keywords:
-    - clickhouse-cluster-helm
+    - clickhouse
     maintainers:
     - email: tai_chong@foxmail.com
       name: TCeason
@@ -42,23 +66,23 @@ entries:
     - email: suhouzhen2020@gmail.com
       name: su-houzhen
       url: https://su-houzhen.github.io/
-    name: clickhouse-cluster-helm-cluster
+    name: clickhouse-cluster
     sources:
-    - https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    - https://github.com/radondb/radondb-clickhouse-kubernetes
     type: application
     urls:
-    - https://radondb.github.io/radondb-clickhouse-cluster-helm-kubernetes/clickhouse-cluster-helm-cluster-v2.0.tgz
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-cluster-v2.0.tgz
     version: v2.0
   - apiVersion: v2
     appVersion: "21.1"
-    created: "2021-11-16T18:00:43.170084695+08:00"
+    created: "2021-12-07T15:43:06.680169083+08:00"
     description: Helm Chart for deploying a sharded and replicated ClickHouse cluster
       on Kubernetes with Zookeeper
-    digest: 7796bfb8e4661d95d188e72febb2c9006bd5a8aa70ac8348d845d854e639df2a
-    home: https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    digest: 30ac03d363da786b7eb19310fd00a51d773d7ed4ad765bd51ba12bb7b1d7b820
+    home: https://github.com/radondb/radondb-clickhouse-kubernetes
     icon: https://xenondb.pek3b.qingstor.com/icons/radondb.svg
     keywords:
-    - clickhouse-cluster-helm
+    - clickhouse
     maintainers:
     - email: tai_chong@foxmail.com
       name: TCeason
@@ -66,23 +90,23 @@ entries:
     - email: suhouzhen2020@gmail.com
       name: su-houzhen
       url: https://su-houzhen.github.io/
-    name: clickhouse-cluster-helm-cluster
+    name: clickhouse-cluster
     sources:
-    - https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    - https://github.com/radondb/radondb-clickhouse-kubernetes
     type: application
     urls:
-    - https://radondb.github.io/radondb-clickhouse-cluster-helm-kubernetes/clickhouse-cluster-helm-cluster-v1.0.tgz
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-cluster-v1.0.tgz
     version: v1.0
   clickhouse-operator:
   - apiVersion: v2
     appVersion: v2.1
-    created: "2021-11-16T18:00:43.174312628+08:00"
+    created: "2021-12-07T15:43:06.684129218+08:00"
     description: Helm chart for deploying ClickHouse Operator on Kubernetes
-    digest: 8200a7aec7080d24b8ee1542bd5aaf86353d2dca209d9414d09308dde1f5daa5
-    home: https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    digest: 8b8206d55286e07f500dd6b3f395d0badaf604d4606c55160a43f15c7cce0d14
+    home: https://github.com/radondb/radondb-clickhouse-kubernetes
     keywords:
     - operator
-    - clickhouse-cluster-helm
+    - clickhouse
     - database
     maintainers:
     - email: tai_chong@foxmail.com
@@ -91,24 +115,50 @@ entries:
     - email: suhouzhen2020@gmail.com
       name: su-houzhen
       url: https://su-houzhen.github.io/
-    name: clickhouse-cluster-helm-operator
+    name: clickhouse-operator
     sources:
-    - https://github.com/altinity/clickhouse-cluster-helm-operator
-    - https://github.com/radondb/radondb-clickhouse-cluster-helm-operator
-    - https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    - https://github.com/altinity/clickhouse-operator
+    - https://github.com/radondb/radondb-clickhouse-operator
+    - https://github.com/radondb/radondb-clickhouse-kubernetes
     type: application
     urls:
-    - https://radondb.github.io/radondb-clickhouse-cluster-helm-kubernetes/clickhouse-cluster-helm-operator-v2.1.tgz
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-operator-v2.1.1.tgz
+    version: v2.1.1
+  - apiVersion: v2
+    appVersion: v2.1
+    created: "2021-12-07T15:43:06.684945896+08:00"
+    description: Helm chart for deploying ClickHouse Operator on Kubernetes
+    digest: 8200a7aec7080d24b8ee1542bd5aaf86353d2dca209d9414d09308dde1f5daa5
+    home: https://github.com/radondb/radondb-clickhouse-kubernetes
+    keywords:
+    - operator
+    - clickhouse
+    - database
+    maintainers:
+    - email: tai_chong@foxmail.com
+      name: TCeason
+      url: https://tceason.github.io/
+    - email: suhouzhen2020@gmail.com
+      name: su-houzhen
+      url: https://su-houzhen.github.io/
+    name: clickhouse-operator
+    sources:
+    - https://github.com/altinity/clickhouse-operator
+    - https://github.com/radondb/radondb-clickhouse-operator
+    - https://github.com/radondb/radondb-clickhouse-kubernetes
+    type: application
+    urls:
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-operator-v2.1.tgz
     version: v2.1
   - apiVersion: v2
     appVersion: v2.0
-    created: "2021-11-16T18:00:43.173582623+08:00"
+    created: "2021-12-07T15:43:06.683321176+08:00"
     description: Helm chart for deploying ClickHouse Operator on Kubernetes
     digest: bd0d1b127eb6bd022dc1e49cc924363fd976d95c62fd82df40dc11a2a8f7d913
-    home: https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    home: https://github.com/radondb/radondb-clickhouse-kubernetes
     keywords:
     - operator
-    - clickhouse-cluster-helm
+    - clickhouse
     - database
     maintainers:
     - email: tai_chong@foxmail.com
@@ -117,13 +167,13 @@ entries:
     - email: suhouzhen2020@gmail.com
       name: su-houzhen
       url: https://su-houzhen.github.io/
-    name: clickhouse-cluster-helm-operator
+    name: clickhouse-operator
     sources:
-    - https://github.com/altinity/clickhouse-cluster-helm-operator
-    - https://github.com/radondb/radondb-clickhouse-cluster-helm-operator
-    - https://github.com/radondb/radondb-clickhouse-cluster-helm-kubernetes
+    - https://github.com/altinity/clickhouse-operator
+    - https://github.com/radondb/radondb-clickhouse-operator
+    - https://github.com/radondb/radondb-clickhouse-kubernetes
     type: application
     urls:
-    - https://radondb.github.io/radondb-clickhouse-cluster-helm-kubernetes/clickhouse-cluster-helm-operator-v2.0.tgz
+    - https://radondb.github.io/radondb-clickhouse-kubernetes/clickhouse-operator-v2.0.tgz
     version: v2.0
-generated: "2021-11-16T18:00:43.168602483+08:00"
+generated: "2021-12-07T15:43:06.678870994+08:00"
