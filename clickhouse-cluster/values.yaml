@@ -8,7 +8,7 @@ clickhouse:
   replicascount: 2
 
   # ClickHouse server image configuration
-  image: radondb/clickhouse-server:v21.1.3.32-stable
+  image: radondb/clickhouse-server:21.1.3.32
   imagePullPolicy: IfNotPresent
 
   resources:
@@ -41,21 +41,16 @@ clickhouse:
 # Configuration for the busybox container
 busybox:
   image: busybox
-  imagePullPolicy: Always
+  imagePullPolicy: IfNotPresent
 
 # required, zookeeper configuration
 zookeeper:
   # If you want to create ZooKeeper cluster by operator, use the following configuration
-  # install: true
-  # replicas: specify by yourself
-  # port: specify by yourself
-  # image: default "radondb/zookeeper:3.6.2"
-  # imagePullPolicy: specify by yourself
   install: true
   replicas: 3
   port: 2181
-  image: radondb/zookeeper:3.6.2
-  imagePullPolicy: Always
+  image: radondb/zookeeper:3.6.1
+  imagePullPolicy: IfNotPresent
 
   # If you don’t want Operator to create a ZooKeeper cluster, we also provide a ZooKeeper deployment file,
   # you can customize the following configuration.
