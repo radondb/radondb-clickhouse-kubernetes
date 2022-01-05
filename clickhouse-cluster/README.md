@@ -156,7 +156,7 @@ In default, PVC mount on the `/var/lib/clickhouse` directory.
 |   `clickhouse.clusterName`   |  ClickHouse cluster name. | all-nodes  |
 |   `clickhouse.shardscount`   |  Shards count. Once confirmed, it cannot be reduced.  |   1  |
 |   `clickhouse.replicascount`   |  Replicas count. Once confirmed, it cannot be modified.  |   2  |
-|   `clickhouse.image`   |  ClickHouse image name, it is not recommended to modify.  | radondb/clickhouse-server:v21.1.3.32-stable  |
+|   `clickhouse.image`   |  ClickHouse image name, it is not recommended to modify.  | radondb/clickhouse-server:21.1.3.32  |
 |   `clickhouse.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  | IfNotPresent  |
 |   `clickhouse.resources.memory`   |  K8s memory resources should be requested by a single Pod.  |  1Gi |
 |   `clickhouse.resources.cpu`   |  K8s CPU resources should be requested by a single Pod.  |  0.5 |
@@ -165,13 +165,15 @@ In default, PVC mount on the `/var/lib/clickhouse` directory.
 |   `clickhouse.port.tcp`   |  Port for the native interface.  |  9000  |
 |   `clickhouse.port.http`   |  Port for HTTP/REST interface.  |  8123  |
 |   `clickhouse.svc.type`   |  K8s service type. The value can be ClusterIP/NodePort/LoadBalancer.  |  ClusterIP  |
-|   `clickhouse.svc.qceip`   |  If the value of type is LoadBalancer, You need to configure loadbalancer that provided by third-party platforms.     |  nil   |
+|   **BusyBox**   |     |    |
+|   `busybox.image`   |  BusyBox image name, it is not recommended to modify.  |  busybox  |
+|   `busybox.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  |  IfNotPresent  |
 |   **ZooKeeper**   |     |    |
 |   `zookeeper.install`   |  Whether to create ZooKeeper by operator.  |  true  |
 |   `zookeeper.port`   |  ZooKeeper service port.   |  2181  |
 |   `zookeeper.replicas`   |  ZooKeeper cluster replicas count.  |  3  |
-|   `zookeeper.image`   |  ZooKeeper image name, it is not recommended to modify.  |  Deprecated, if install = true  |
-|   `zookeeper.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  |  Deprecated, if install = true  |
+|   `zookeeper.image`   |  ZooKeeper image name, it is not recommended to modify.  |  radondb/zookeeper:3.6.1  |
+|   `zookeeper.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  |  IfNotPresent  |
 |   `zookeeper.resources.memory`   |  K8s memory resources should be requested by a single Pod.  | Deprecated, if install = true  |
 |   `zookeeper.resources.cpu`   |  K8s CPU resources should be requested by a single Pod.  |  Deprecated, if install = true  |
 |   `zookeeper.resources.storage`   |  K8s storage resources should be requested by a single Pod.  |  Deprecated, if install = true  |
