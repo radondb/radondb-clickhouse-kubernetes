@@ -163,6 +163,63 @@ spec:
                 - '--'
               args:
                 - while true; do sleep 30; done;
+            {{- if .Values.backup.enable }}
+            - name: clickhouse-backup
+              image: {{ .Values.backup.image | default "radondb/clickhouse-backup:latest"  }}
+              imagePullPolicy: {{ .Values.backup.imagePullPolicy | default "Always"  }}
+              command:
+                - bash
+                - -xc
+                - "/bin/clickhouse-backup server"
+              ports:
+                - name: backup-rest
+                  containerPort: 7171
+              env:
+                - name: API_LISTEN
+                  value: "0.0.0.0:7171"
+                # INSERT INTO system.backup_actions to execute backup
+                - name: API_CREATE_INTEGRATION_TABLES
+                  value: "true"
+
+                - name: LOG_LEVEL
+                  value: "debug"
+                - name: MAX_FILE_SIZE
+                  value: "107374182400"
+                - name: DISABLE_PROGRESS_BAR
+                  value: "false"
+                - name: ALLOW_EMPTY_BACKUPS
+                  value: "true"
+                - name: BACKUPS_TO_KEEP_LOCAL
+                  value: {{ mul .Values.backup.backupKeep .Values.clickhouse.shardscount .Values.clickhouse.replicascount | default "" | quote }}
+                - name: BACKUPS_TO_KEEP_REMOTE
+                  value: {{ mul .Values.backup.backupKeep .Values.clickhouse.shardscount .Values.clickhouse.replicascount | default "" | quote }}
+
+                - name: CLICKHOUSE_HOST
+                  value: "localhost"
+                - name: CLICKHOUSE_PORT
+                  value: {{ .Values.clickhouse.ports.tcp | default "9000" | quote }}
+                - name: CLICKHOUSE_USERNAME
+                  value: {{ (index .Values.clickhouse.user 0).username | default "default" | quote }}
+                - name: CLICKHOUSE_PASSWORD
+                  value: {{ (index .Values.clickhouse.user 0).password | default "" | quote }}
+
+                - name: S3_ACL
+                  value: "private"
+                - name: REMOTE_STORAGE
+                  value: "s3"
+                - name: S3_ENDPOINT
+                  value: {{ .Values.backup.s3EndPoint }}
+                - name: S3_BUCKET
+                  value: {{ .Values.backup.s3Bucket }}
+                - name: S3_PATH
+                  value: {{ .Values.backup.s3Path }}
+                - name: S3_ACCESS_KEY
+                  value: {{ .Values.backup.s3AccessKey }}
+                - name: S3_SECRET_KEY
+                  value: {{ .Values.backup.s3SecretKey }}
+                - name: S3_FORCE_PATH_STYLE
+                  value: "true"
+            {{- end }}
 
     volumeClaimTemplates:
       - name: data

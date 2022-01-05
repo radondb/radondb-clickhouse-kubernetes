@@ -38,6 +38,26 @@ clickhouse:
     # If type: LoadBalancer, can use https://docs.qingcloud.com/product/container/qke/index#%E4%B8%8E-qingcloud-iaas-%E7%9A%84%E6%95%B4%E5%90%88
     qceip:
 
+# Configuration for the clickhouse backup
+backup:
+  # true for enable backup, false for disable
+  enable: true
+
+  # clickhouse backup image configuration
+  image: radondb/clickhouse-backup:latest
+  imagePullPolicy: IfNotPresent
+
+  # Object storage related configuration required for backup
+  # object storage must be compatible with AWS S3 protocol
+  s3EndPoint: ""
+  s3Bucket: ""
+  s3Path: ""
+  s3AccessKey: ""
+  s3SecretKey: ""
+
+  # The number of backups to keep, beyond which stale backups will be deleted
+  backupKeep: 3
+
 # Configuration for the busybox container
 busybox:
   image: busybox

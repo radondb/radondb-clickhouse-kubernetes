@@ -165,6 +165,16 @@ In default, PVC mount on the `/var/lib/clickhouse` directory.
 |   `clickhouse.port.tcp`   |  Port for the native interface.  |  9000  |
 |   `clickhouse.port.http`   |  Port for HTTP/REST interface.  |  8123  |
 |   `clickhouse.svc.type`   |  K8s service type. The value can be ClusterIP/NodePort/LoadBalancer.  |  ClusterIP  |
+|   **Backup**   |     |    |
+|   `backup.on`   |  Whether to enable backup and restore.  |  true  |
+|   `backup.image`   |  ClickHouse-Backup image name, it is not recommended to modify.  |  radondb/clickhouse-backup:latest  |
+|   `backup.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  |  IfNotPresent  |
+|   `backup.s3EndPoint`   |  Object storage endpoint required for backup.  |    |
+|   `backup.s3Bucket`   |  Object storage bucket required for backup.  |    |
+|   `backup.s3Path`   |  Object storage path required for backup.  |    |
+|   `backup.s3AccessKey`   |  Object storage access key required for backup.  |    |
+|   `backup.s3SecretKey`   |  Object storage sercret key required for backup.  |    |
+|   `backup.backupKeep`   |  The number of backups to keep, beyond which stale backups will be deleted  |  "3"  |
 |   **BusyBox**   |     |    |
 |   `busybox.image`   |  BusyBox image name, it is not recommended to modify.  |  busybox  |
 |   `busybox.imagePullPolicy`   |  Image pull policy. The value can be Always/IfNotPresent/Never.  |  IfNotPresent  |

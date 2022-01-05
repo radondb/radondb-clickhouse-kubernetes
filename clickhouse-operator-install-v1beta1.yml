@@ -2696,6 +2696,95 @@ spec:
                 - "LabelClusterScopeCycleIndex"
                 - "LabelClusterScopeCycleOffset"
 ---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: clickhousebackups.clickhouse.radondb.com
+spec:
+  group: clickhouse.radondb.com
+  scope: Cluster
+  names:
+    kind: ClickHouseBackup
+    singular: clickhousebackup
+    plural: clickhousebackups
+    shortNames:
+      - chbackup
+  version: v1
+  additionalPrinterColumns:
+    - name: status
+      type: string
+      description: Backup status
+      priority: 0 # show in standard view
+      JSONPath: .status
+  validation:
+    openAPIV3Schema:
+      type: object
+      required:
+        - spec
+      description: |
+        define Kubernetes Job/CronJob for clickhouse backup or Job for clickhouse restore via `ClickHouse-Backup`.
+        More info: https://github.com/RadonDB/radondb-clickhouse-operator/blob/master/docs/clickhouse_backup_and_restore.md
+      properties:
+        apiVersion:
+          type: string
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+        kind:
+          type: string
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+        metadata:
+          type: object
+        status:
+          type: string
+          description: "Current ClickHouse Backup status."
+        spec:
+          type: object
+          description: |
+            allows define some of settings for `clickhouse-operator` itself,
+            More info: https://github.com/RadonDB/radondb-clickhouse-operator/blob/master/config/config.yaml
+            look to etc-clickhouse-operator* ConfigMaps if you need more control.
+          properties:
+            chiName:
+              type: string
+              description: "The name of the CHI to which the cluster to be backed up belongs."
+            clusterName:
+              type: string
+              description: "The name of the cluster to be backed up."
+            namespace:
+              type: string
+              description: "The namespace of the cluster to be backed up."
+            tcpPort:
+              type: integer
+              description: "The tcp port of the cluster to be backed up."
+            image:
+              type: string
+              description: "The image of clickhouse-client, is used to send backup commands to clickhouse-server and monitor the backup situation."
+            imagePullPolicy:
+              type: string
+              description: "The image pull policy of clickhouse-client."
+              enum:
+                - Always
+                - IfNotPresent
+                - Never
+            backup:
+              type: object
+              description: "Backup related settings, allowing you to specify whether it is a single backup or a scheduled backup."
+              properties:
+                kind:
+                  type: string
+                  description: "The type of backup, single backup or scheduled backup."
+                  enum:
+                    - single
+                    - schedule
+                schedule:
+                  type: string
+                  description: "Rules for scheduled backup, can be `single` or `schedule`."
+            restore:
+              type: object
+              description: "Restore related settings, specify which backup you need to restore from."
+              properties:
+                backupName:
+                  type: string
+---
 # Possible Template Parameters:
 #
 # kube-system
@@ -2807,6 +2896,19 @@ rules:
       - list
       - watch
   - apiGroups:
+      - batch
+    resources:
+      - jobs
+      - cronjobs
+    verbs:
+      - create
+      - delete
+      - get
+      - patch
+      - update
+      - list
+      - watch
+  - apiGroups:
       - clickhouse.radondb.com
     resources:
       - clickhouseinstallations
@@ -2818,6 +2920,16 @@ rules:
   - apiGroups:
       - clickhouse.radondb.com
     resources:
+      - clickhousebackups
+    verbs:
+      - delete
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - clickhouse.radondb.com
+    resources:
+      - clickhousebackups
       - clickhouseinstallations
       - clickhouseinstallationtemplates
       - clickhouseoperatorconfigurations
@@ -2828,6 +2940,7 @@ rules:
   - apiGroups:
       - clickhouse.radondb.com
     resources:
+      - clickhousebackups/finalizers
       - clickhouseinstallations/finalizers
       - clickhouseinstallationtemplates/finalizers
       - clickhouseoperatorconfigurations/finalizers
