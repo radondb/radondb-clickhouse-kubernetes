@@ -19,7 +19,7 @@ apiVersion: v2
 appVersion: "21.1"
 name: clickhouse-cluster
 type: application
-version: v2.1.1
+version: v2.1.2
 description: Helm Chart for deploying a sharded and replicated ClickHouse cluster on Kubernetes
 home: https://github.com/radondb/radondb-clickhouse-kubernetes
 icon: https://xenondb.pek3b.qingstor.com/icons/radondb.svg

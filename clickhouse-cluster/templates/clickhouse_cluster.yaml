@@ -89,6 +89,8 @@ spec:
       dataVolumeClaimTemplate: data
       serviceTemplate: chi-svc-template
 
+  metricsExporter: "true"
+
   templates:
     serviceTemplates:
       - name: chi-svc-template
