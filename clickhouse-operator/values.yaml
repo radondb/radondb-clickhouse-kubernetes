@@ -4,9 +4,9 @@ namespaceOverride: ""
 watchAllNamespaces: true
 
 operator:
-  image: radondb/chronus-operator:dmp
+  image: radondb/chronus-operator:2.1.3
   imagePullPolicy: IfNotPresent
 
 metrics_operator:
-  image: radondb/chronus-metrics-operator:dmp
+  image: radondb/chronus-metrics-operator:2.1.3
   imagePullPolicy: IfNotPresent
