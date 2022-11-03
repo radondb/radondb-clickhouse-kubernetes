@@ -14,7 +14,7 @@
 - Support ClickHouse version upgrades
 - Exporting ClickHouse metrics to Prometheus
 - Node management, Automatic failover, Automatic rebuild node
-- Support fine-grained cluster status display: create, update, running, failed etc.
+- Support fine-grained cluster status display: create, update, running,  failed etc.
 
 ## v1.0.0
 - First stable release
