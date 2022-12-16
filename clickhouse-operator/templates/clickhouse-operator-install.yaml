@@ -3426,7 +3426,21 @@ spec:
             name: etc-clickhouse-operator-usersd-files
       containers:
         - name: clickhouse-operator
-          image: {{ .Values.operator.image | default "radondb/chronus-operator:2.1.3" }}
+          {{- $imageRepo:=(split "/" .Values.operator.image)._0 }}
+          {{- $imageTag:=(split "/" .Values.operator.image)._1 }}
+          {{- if .Values.namespaceOverride}}
+          {{- if .Values.localRegistry}}
+          image: {{ printf "%s/%s/%s" .Values.localRegistry .Values.namespaceOverride $imageTag | quote }}
+          {{- else }}
+          image: {{ printf "%s/%s" .Values.namespaceOverride $imageTag | quote }}
+          {{- end}}
+          {{- else }}
+          {{- if .Values.localRegistry }}
+          image: {{ printf "%s/%s/%s" .Values.localRegistry $imageRepo $imageTag | quote }}
+          {{- else }}
+          image: {{ printf "%s/%s" $imageRepo $imageTag | quote }}
+          {{- end}}
+          {{- end}}
           imagePullPolicy: {{ .Values.operator.imagePullPolicy | default "IfNotPresent" }}
           volumeMounts:
             - name: etc-clickhouse-operator-folder
