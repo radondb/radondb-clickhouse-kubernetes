@@ -3,6 +3,7 @@ localRegistry: "docker.io"
 namespaceOverride: ""
 watchAllNamespaces: true
 enablePrometheusMonitor: false
+prometheusMonitorLabels: {}
 
 operator:
   image: radondb/chronus-operator:2.1.3

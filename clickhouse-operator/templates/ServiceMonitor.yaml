@@ -4,6 +4,10 @@ kind: ServiceMonitor
 metadata:
   name: clickhouse-clusters-monitor
   namespace: {{ .Release.Namespace }}
+  labels:
+    {{- range $key,$value := .Values.prometheusMonitorLabels }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
 spec:
   selector:
     matchLabels:
